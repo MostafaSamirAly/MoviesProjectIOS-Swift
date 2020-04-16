@@ -1,0 +1,38 @@
+PODS:
+  - Alamofire (4.9.1)
+  - Cosmos (20.0.1)
+  - DropDown (2.3.4)
+  - ReachabilitySwift (3)
+  - RevealingSplashView (0.6.0)
+  - SDWebImage (5.4.0):
+    - SDWebImage/Core (= 5.4.0)
+  - SDWebImage/Core (5.4.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - Cosmos
+  - DropDown (= 2.3.4)
+  - ReachabilitySwift
+  - RevealingSplashView
+  - SDWebImage
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Cosmos
+    - DropDown
+    - ReachabilitySwift
+    - RevealingSplashView
+    - SDWebImage
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Cosmos: b47fddf2102bb48580cd3025d9ce0a5c658a65da
+  DropDown: f225ff0fd09dde064d17aa03db7e4d4e4ff40b6b
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
+  RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
+  SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
+
+PODFILE CHECKSUM: 1f86fc2afe4f306a573c282b920ecb2d6b4dfeb1
+
+COCOAPODS: 1.8.4
