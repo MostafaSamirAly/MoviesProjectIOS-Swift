@@ -34,7 +34,7 @@ class Details: UIViewController{
         
         
         let videosUrl = "https://api.themoviedb.org/3/movie/"+String(infoMovie.id)+"/videos?api_key=1c49378c151f43527b6b7af9330e8875"
-        jsonHelper.getMovies(url: videosUrl) { (respons) in
+        jsonHelper.getMovies(url: videosUrl) {[unowned self] (respons) in
             if respons.count != 0{
                 for i in 0...respons.count-1{
                     self.infoMovie.trailers.append(respons[i]["key"] as! String)
@@ -46,7 +46,7 @@ class Details: UIViewController{
         
         
         let reviewsUrl = "https://api.themoviedb.org/3/movie/"+String(infoMovie.id)+"/reviews?api_key=1c49378c151f43527b6b7af9330e8875"
-        jsonHelper.getMovies(url: reviewsUrl) { (respons) in
+        jsonHelper.getMovies(url: reviewsUrl) {[unowned self] (respons) in
             if respons.count != 0{
                 for i in 0...respons.count-1{
                     self.infoMovie.reviews.append(respons[i]["content"] as! String)

@@ -113,7 +113,7 @@ class HomePageVC: UIViewController {
     }
     
     @IBAction func sortBtnPressed(_ sender: Any) {
-        json.checkReachability(completion: { (connection) in
+        json.checkReachability(completion: {[unowned self] (connection) in
             self.rightBarDropDown.selectionAction = { (index: Int, item: String) in
                 if index == 0 {
 
@@ -263,7 +263,7 @@ extension HomePageVC :UISearchBarDelegate{
                 }
             }
             
-            json.checkReachability { (connectivity) in
+            json.checkReachability {[unowned self] (connectivity) in
                 if connectivity{
                     self.json.getMovies(url: "https://api.themoviedb.org/3/search/movie?api_key=1c49378c151f43527b6b7af9330e8875&query="+concatedUrl) { (response) in
                         if response.count == 0 {
