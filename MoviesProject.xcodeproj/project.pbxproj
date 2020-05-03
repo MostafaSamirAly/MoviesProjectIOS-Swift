@@ -77,6 +77,7 @@
 		BF71CEED23BCB434009F97A1 /* MoviesProject */ = {
 			isa = PBXGroup;
 			children = (
+				BF7CA1A0245F752800534188 /* Network */,
 				BF749A6C23BDF65100CFD7D1 /* Controllers */,
 				BF749A6B23BDF64500CFD7D1 /* Views */,
 				BF749A6A23BDF62800CFD7D1 /* Models */,
@@ -93,7 +94,6 @@
 			children = (
 				BF749A6F23BDF6E800CFD7D1 /* Movie.swift */,
 				BFFC409A23C09F9D00BFA458 /* CoreDataHelper.swift */,
-				BFE065EE23BE2F4400608CE2 /* JsonHelper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -117,6 +117,14 @@
 				BF7B3ADE23C8CAB60094E9DF /* ReviewPageCell.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BF7CA1A0245F752800534188 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BFE065EE23BE2F4400608CE2 /* JsonHelper.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		CEC7A9476535BB783F26B732 /* Pods */ = {

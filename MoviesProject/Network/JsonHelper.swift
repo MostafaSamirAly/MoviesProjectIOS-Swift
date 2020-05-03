@@ -14,9 +14,9 @@ class JsonHelper {
     static let jsonHelperSingleTone = JsonHelper()
 
     var connected : Bool?
-    private init(){
-        
-    }
+    private init(){}
+    
+    
     func getMovies(url: String, completion: @escaping ([Dictionary<String,Any>]) -> ())
     {
         DispatchQueue.main.async {
