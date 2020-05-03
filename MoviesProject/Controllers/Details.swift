@@ -9,7 +9,7 @@
 import UIKit
 import Cosmos
 
-class Details: UIViewController,UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class Details: UIViewController{
     
     
     let coreData = CoreDataHelper.coreDatahelperSingleTone
@@ -25,7 +25,6 @@ class Details: UIViewController,UITableViewDelegate,UITableViewDataSource,UIColl
     @IBOutlet weak var favouritesBtn: UIButton!
     @IBOutlet weak var trailersTable: UITableView!
     @IBOutlet weak var movieImage: UIImageView!
-    
     @IBOutlet weak var cosmosView: CosmosView!
     @IBOutlet weak var reviewsCollection: UICollectionView!
     
@@ -79,27 +78,30 @@ class Details: UIViewController,UITableViewDelegate,UITableViewDataSource,UIColl
         }
     }
     
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return infoMovie.reviews.count
+    @IBAction func favoritesBtn(_ sender: Any) {
+        
+        if infoMovie.isFoavourite {
+            favouritesBtn.setTitle("Add To Favourites", for: .normal)
+            infoMovie.isFoavourite = false
+            coreData.DeleteMovieFromCoreData(withID: infoMovie.id, entityName: "FavouriteMovies")
+        }else{
+            favouritesBtn.setTitle("Remove From Favourites", for: .normal)
+            infoMovie.isFoavourite = true
+            coreData.insertMovieToCoreData(entityName: "FavouriteMovies", movieToInsert: infoMovie)
+            
+        }
     }
+}
+
+extension Details : UITableViewDelegate{
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "revCell", for: indexPath) as! ReviewPageCell
-        cell.reviewerImage.image = UIImage.init(named: "reviewer")
-        cell.reviewText.text = infoMovie.reviews[indexPath.row]
-        return cell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let url = "https://www.youtube.com/watch?v=" + infoMovie.trailers[indexPath.row]
+        UIApplication.shared.open(URL(string: url)!)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.size.height
-        let width = collectionView.frame.size.width
-        return CGSize(width: width , height: height )
-    }
-    
-    
-    
-    	
+}
+
+extension Details : UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -114,33 +116,36 @@ class Details: UIViewController,UITableViewDelegate,UITableViewDataSource,UIColl
         cell.imageView?.image = UIImage.init(named: "youTube.png")
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let url = "https://www.youtube.com/watch?v=" + infoMovie.trailers[indexPath.row]
-        UIApplication.shared.open(URL(string: url)!)
-    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Trailers"
     }
     
-    
-    @IBAction func favoritesBtn(_ sender: Any) {
-        
-        if infoMovie.isFoavourite {
-            favouritesBtn.setTitle("Add To Favourites", for: .normal)
-            infoMovie.isFoavourite = false
-            coreData.DeleteMovieFromCoreData(withID: infoMovie.id, entityName: "FavouriteMovies")
-        }else{
-            favouritesBtn.setTitle("Remove From Favourites", for: .normal)
-            infoMovie.isFoavourite = true
-            coreData.insertMovieToCoreData(entityName: "FavouriteMovies", movieToInsert: infoMovie)
-            
-        }
-    }
-    
-    
-    
-    
-    
-    
 }
 
+extension Details : UICollectionViewDelegate{}
+
+extension Details : UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return infoMovie.reviews.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "revCell", for: indexPath) as! ReviewPageCell
+        cell.reviewerImage.image = UIImage.init(named: "reviewer")
+        cell.reviewText.text = infoMovie.reviews[indexPath.row]
+        return cell
+    }
+}
+
+extension Details : UICollectionViewDelegateFlowLayout{
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = collectionView.frame.size.height
+        let width = collectionView.frame.size.width
+        return CGSize(width: width , height: height )
+    }
+    
+}

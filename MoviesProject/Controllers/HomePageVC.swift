@@ -31,8 +31,8 @@ class HomePageVC: UIViewController {
         let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "film2")!,iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: UIColor.white)
         self.view.addSubview(revealingSplashView)
         revealingSplashView.startAnimation(){}
-        json.checkReachability { (connectivity) in
-            
+        
+        json.checkReachability { [unowned self] (connectivity) in
             if connectivity{
                 self.json.getMovies(url: "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=1c49378c151f43527b6b7af9330e8875") { (response) in
                     self.fillMovies(response: response, entityName: "MostPopular")
@@ -59,13 +59,6 @@ class HomePageVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         homeCollectionView.reloadData()
     }
-    
-    
-    
-    
-    
-    
-    
     
     func fillMovies(response : [Dictionary<String,Any>] , entityName : String) -> Void {
         if response.count != 0{
@@ -110,13 +103,7 @@ class HomePageVC: UIViewController {
             movies = coreData.getMoviesFromCoreData(entityName: entityName)
             homeCollectionView.reloadData()
         }
-        
-        
-        
     }
-    
-    
-    
     
     func showAlert(withMessage:String){
         let noConnectionAlert = UIAlertController(title:"", message: withMessage, preferredStyle: .alert)
