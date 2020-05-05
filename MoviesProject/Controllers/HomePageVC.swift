@@ -22,6 +22,7 @@ class HomePageVC: UIViewController {
     
     @IBOutlet weak var sortBtnOutlet: UIBarButtonItem!
     
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var homeCollectionView: UICollectionView!
     
@@ -30,6 +31,7 @@ class HomePageVC: UIViewController {
         let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "film2")!,iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: UIColor.white)
         self.view.addSubview(revealingSplashView)
         revealingSplashView.startAnimation(){}
+        loadingIndicator.startAnimating()
         network.checkReachability(completion: {[unowned self] (connected) in
             if connected{
                 self.getDataFromNetwork(url: .mostPopular, entity: .mostPopular, appendValues: false)
@@ -119,19 +121,25 @@ class HomePageVC: UIViewController {
     
     
     func getDataFromNetwork(url: ApiURL , entity: CoreDataEntities,appendValues:Bool){
-        
+        DispatchQueue.main.async {
+            self.loadingIndicator.startAnimating()
+            self.homeCollectionView.isHidden = true
+        }
         network.getMovies(url: url.rawValue) {[unowned self] (response) in
             if response.count != 0{
                 self.movieStore.fillMovies(response: response, entityName: entity.rawValue, appendValues: appendValues)
                 self.SearchCanceledMovies = self.movieStore.getMovies()
                 self.movieStore.saveMoviesToCoreData(entityName: .mostPopular)
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
             }else{
                 self.showAlert(withMessage: "Poor Internet Connection")
                 self.movieStore.getMoviesFromCoreData(entityName: .mostPopular)
             }
             
             DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.loadingIndicator.stopAnimating()
+                self.homeCollectionView.isHidden = false
                 self.homeCollectionView.reloadData()
             }
             
@@ -236,6 +244,8 @@ extension HomePageVC :UISearchBarDelegate{
                             DispatchQueue.main.async {
                                 self.homeCollectionView.reloadData()
                                  UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                self.loadingIndicator.stopAnimating()
+                                self.homeCollectionView.isHidden = false
                             }
                         }
 
@@ -245,6 +255,9 @@ extension HomePageVC :UISearchBarDelegate{
                     self.showAlert(withMessage: "No Result")
                     DispatchQueue.main.async {
                         self.homeCollectionView.reloadData()
+                        self.loadingIndicator.stopAnimating()
+                        self.homeCollectionView.isHidden = false
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
                 }
             }

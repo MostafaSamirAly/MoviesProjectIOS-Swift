@@ -83,7 +83,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="homeCollectionView" destination="mpC-VE-ePH" id="NSf-kv-Hxh"/>
-                        <outlet property="loadingIndicator" destination="AqA-3b-s6p" id="75Z-Wo-bdd"/>
+                        <outlet property="loadingIndicator" destination="AqA-3b-s6p" id="Wbd-te-ROk"/>
                         <outlet property="sortBtnOutlet" destination="Wk9-JC-EKI" id="pXN-QJ-THU"/>
                     </connections>
                 </viewController>
