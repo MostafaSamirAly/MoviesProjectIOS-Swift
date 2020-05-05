@@ -27,7 +27,6 @@ class JsonHelper {
             case .success:
                 if let value = response.result.value {
                     let json = value as! Dictionary<String,Any>
-                    print((json["results"] as? [Dictionary<String,Any>])!)
                     completion((json["results"] as? [Dictionary<String,Any>])!)
                 }
             case .failure(let error):
@@ -39,16 +38,11 @@ class JsonHelper {
     
     func checkReachability(completion:@escaping(Bool)->()){
         let reachability = Reachability()!
-        reachability.whenReachable = { reachability in
-            if reachability.isReachableViaWiFi {
-                print("Reachable via WiFi")
+        reachability.whenReachable = { _ in
                 completion(true)
-            } else {
-                print("Reachable via Cellular")
-            }
+            
         }
         reachability.whenUnreachable = { _ in
-            print("no connection")
             completion(false)
         }
         do {

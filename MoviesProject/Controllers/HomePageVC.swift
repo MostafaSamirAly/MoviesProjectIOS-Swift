@@ -123,7 +123,7 @@ class HomePageVC: UIViewController {
         network.getMovies(url: url.rawValue) {[unowned self] (response) in
             if response.count != 0{
                 self.movieStore.fillMovies(response: response, entityName: entity.rawValue, appendValues: appendValues)
-                self.SearchCanceledMovies = self.movieStore.movies
+                self.SearchCanceledMovies = self.movieStore.getMovies()
                 self.movieStore.saveMoviesToCoreData(entityName: .mostPopular)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }else{
@@ -210,7 +210,7 @@ extension HomePageVC :UISearchBarDelegate{
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         if searchText.count == 0 {
-            movieStore.movies = SearchCanceledMovies
+            movieStore.setMovies(movies: SearchCanceledMovies)
             homeCollectionView.reloadData()
         }
     }
@@ -228,7 +228,7 @@ extension HomePageVC :UISearchBarDelegate{
             
             network.checkReachability {[unowned self] (connectivity) in
                 if connectivity{
-                    self.network.getMovies(url: "https://api.themoviedb.org/3/search/movie?api_key=1c49378c151f43527b6b7af9330e8875&query="+concatedUrl) { (response) in
+                    self.network.getMovies(url: ApiURL.search.rawValue + concatedUrl) { (response) in
                         if response.count == 0 {
                             self.showAlert(withMessage: "Movie Not Found")
                         }else{
@@ -257,7 +257,7 @@ extension HomePageVC :UISearchBarDelegate{
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
         searchBar.showsCancelButton = false
-        movieStore.movies = SearchCanceledMovies
+        movieStore.setMovies(movies: SearchCanceledMovies)
         homeCollectionView.reloadData()
     }
     

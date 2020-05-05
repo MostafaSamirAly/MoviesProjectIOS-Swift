@@ -9,9 +9,9 @@
 import Foundation
 
 class MovieStore {
-    var movies = [Movie]()
-    var favourites : [Movie]
-    let coreData = CoreDataHelper.coreDatahelperSingleTone
+    private var movies = [Movie]()
+    private var favourites : [Movie]
+    private let coreData = CoreDataHelper.coreDatahelperSingleTone
     
     init() {
         favourites = coreData.getMoviesFromCoreData(entityName: CoreDataEntities.favourites.rawValue)
@@ -70,6 +70,14 @@ class MovieStore {
     
     func getMoviesCount() -> Int{
         return movies.count
+    }
+    
+    func setMovies(movies:[Movie]) {
+        self.movies = movies
+    }
+    
+    func getMovies()->[Movie] {
+        return movies
     }
     
 }

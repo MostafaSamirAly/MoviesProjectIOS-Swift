@@ -42,7 +42,6 @@ class CoreDataHelper {
                 
             }
         }
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         return rtnMovies
     }
     

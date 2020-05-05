@@ -17,7 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mpC-VE-ePH">
+                            <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AqA-3b-s6p">
+                                <rect key="frame" x="197" y="365.66666666666669" width="20" height="20"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mpC-VE-ePH">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="yHf-gI-P2Q">
@@ -61,6 +65,8 @@
                             <constraint firstItem="TOe-W8-kYR" firstAttribute="trailing" secondItem="mpC-VE-ePH" secondAttribute="trailing" id="7Jl-SB-kt4"/>
                             <constraint firstItem="mpC-VE-ePH" firstAttribute="top" secondItem="TOe-W8-kYR" secondAttribute="top" id="E3Q-pd-pkB"/>
                             <constraint firstAttribute="bottom" secondItem="mpC-VE-ePH" secondAttribute="bottom" id="NfO-g1-iGj"/>
+                            <constraint firstItem="AqA-3b-s6p" firstAttribute="centerX" secondItem="TOe-W8-kYR" secondAttribute="centerX" id="gCc-aL-dM5"/>
+                            <constraint firstItem="AqA-3b-s6p" firstAttribute="centerY" secondItem="TOe-W8-kYR" secondAttribute="centerY" id="kjF-Bz-viy"/>
                             <constraint firstItem="mpC-VE-ePH" firstAttribute="leading" secondItem="TOe-W8-kYR" secondAttribute="leading" id="ogI-RI-1zf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TOe-W8-kYR"/>
@@ -77,6 +83,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="homeCollectionView" destination="mpC-VE-ePH" id="NSf-kv-Hxh"/>
+                        <outlet property="loadingIndicator" destination="AqA-3b-s6p" id="75Z-Wo-bdd"/>
                         <outlet property="sortBtnOutlet" destination="Wk9-JC-EKI" id="pXN-QJ-THU"/>
                     </connections>
                 </viewController>

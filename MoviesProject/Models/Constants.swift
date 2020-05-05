@@ -25,5 +25,5 @@ enum ApiURL : String{
     
     case inTheatres = "https://api.themoviedb.org/3/movie/now_playing?api_key=1c49378c151f43527b6b7af9330e8875&language=en-US"
     
-
+   case search = "https://api.themoviedb.org/3/search/movie?api_key=1c49378c151f43527b6b7af9330e8875&language=en-US&query="
 }
