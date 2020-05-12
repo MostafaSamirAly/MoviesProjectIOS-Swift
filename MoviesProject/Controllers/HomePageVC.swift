@@ -19,6 +19,9 @@ class HomePageVC: UIViewController {
     var SearchCanceledMovies = [Movie]()
     let sortMenu = ["Most Popular","Top Rated","In Theaters"]
     let rightBarDropDown = DropDown()
+    var currentApi: PagingURL = .mostPopular
+    var currentEntity: CoreDataEntities = .mostPopular
+    var page = 1
     
     @IBOutlet weak var sortBtnOutlet: UIBarButtonItem!
     
@@ -31,10 +34,11 @@ class HomePageVC: UIViewController {
         let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "film2")!,iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: UIColor.white)
         self.view.addSubview(revealingSplashView)
         revealingSplashView.startAnimation(){}
-        loadingIndicator.startAnimating()
+        self.loadingIndicator.startAnimating()
+        self.homeCollectionView.isHidden = true
         network.checkReachability(completion: {[unowned self] (connected) in
             if connected{
-                self.getDataFromNetwork(url: .mostPopular, entity: .mostPopular, appendValues: false)
+                self.getDataFromNetwork(url: ApiURL.mostPopular.rawValue, entity: .mostPopular, appendValues: false)
                 
             }else{
                 self.movieStore.getMoviesFromCoreData(entityName: .mostPopular)
@@ -64,10 +68,12 @@ class HomePageVC: UIViewController {
         network.checkReachability(completion: {[unowned self] (connection) in
             self.rightBarDropDown.selectionAction = { (index: Int, item: String) in
                 if index == 0 {
-
+                    self.currentApi = .mostPopular
+                    self.currentEntity = .mostPopular
+                    self.page = 1
                     if connection{
 
-                            self.getDataFromNetwork(url: .mostPopular, entity: .mostPopular, appendValues: false)
+                        self.getDataFromNetwork(url: ApiURL.mostPopular.rawValue, entity: .mostPopular, appendValues: false)
                             DispatchQueue.main.async {
                                 self.rightBarDropDown.hide()
                                 self.homeCollectionView.reloadData()
@@ -83,8 +89,11 @@ class HomePageVC: UIViewController {
                     
                 }
                 else if index == 1 {
+                    self.currentApi = .topRated
+                    self.currentEntity = .topRated
+                    self.page = 1
                     if connection{
-                        self.getDataFromNetwork(url: .topRated, entity: .topRated, appendValues: false)
+                        self.getDataFromNetwork(url: ApiURL.topRated.rawValue, entity: .topRated, appendValues: false)
                         DispatchQueue.main.async {
                             self.rightBarDropDown.hide()
                             self.homeCollectionView.reloadData()
@@ -98,8 +107,11 @@ class HomePageVC: UIViewController {
                     }
                     
                 }else{
+                    self.currentApi = .inTheatres
+                    self.currentEntity = .inTheatres
+                    self.page = 1
                     if connection{
-                        self.getDataFromNetwork(url: .inTheatres, entity: .inTheatres, appendValues: false)
+                        self.getDataFromNetwork(url: ApiURL.inTheatres.rawValue, entity: .inTheatres, appendValues: false)
                         DispatchQueue.main.async {
                             self.rightBarDropDown.hide()
                             self.homeCollectionView.reloadData()
@@ -120,12 +132,9 @@ class HomePageVC: UIViewController {
     }
     
     
-    func getDataFromNetwork(url: ApiURL , entity: CoreDataEntities,appendValues:Bool){
-        DispatchQueue.main.async {
-            self.loadingIndicator.startAnimating()
-            self.homeCollectionView.isHidden = true
-        }
-        network.getMovies(url: url.rawValue) {[unowned self] (response) in
+    func getDataFromNetwork(url: String , entity: CoreDataEntities,appendValues:Bool){
+        
+        network.getMovies(url: url) {[unowned self] (response) in
             if response.count != 0{
                 self.movieStore.fillMovies(response: response, entityName: entity.rawValue, appendValues: appendValues)
                 self.SearchCanceledMovies = self.movieStore.getMovies()
@@ -201,6 +210,21 @@ extension HomePageVC :UICollectionViewDataSource{
             
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == movieStore.getMoviesCount()-1{
+            network.checkReachability(completion: {[unowned self] connected in
+                if connected{
+                    self.page = self.page + 1
+                    let newUrl = PagingURL.mostPopular.rawValue + "\(self.page)"
+                    self.getDataFromNetwork(url: newUrl, entity: .mostPopular, appendValues: true)
+                }else{
+                    self.showAlert(withMessage: "No Internet Connection")
+                }
+            })
+            
+        }
     }
     
 }

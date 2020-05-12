@@ -25,7 +25,7 @@ class MovieStore {
             
             for i in 0...response.count-1
             {
-                var dict = response[i]
+                let dict = response[i]
                 let movie = Movie()
                 movie.id = dict["id"] as! Int
                 movie.title = dict["title"] as? String ?? "N/A"

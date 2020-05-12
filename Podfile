@@ -7,7 +7,7 @@ target 'MoviesProject' do
 pod 'SDWebImage'
 pod 'ReachabilitySwift'
 pod 'Alamofire'
-pod 'DropDown', '2.3.4'
+pod 'DropDown'
 pod 'Cosmos'
 pod 'RevealingSplashView'
 end
