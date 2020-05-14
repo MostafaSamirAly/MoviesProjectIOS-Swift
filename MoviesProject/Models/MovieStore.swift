@@ -55,6 +55,7 @@ class MovieStore {
     }
     
     func saveMoviesToCoreData(entityName: CoreDataEntities){
+        coreData.DeleteAllMoviesFrom(entityName: entityName.rawValue)
         for i in 0...19{
           coreData.insertMovieToCoreData(entityName: entityName.rawValue, movieToInsert: movies[i])
         }

@@ -34,14 +34,19 @@ class HomePageVC: UIViewController {
         let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "film2")!,iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: UIColor.white)
         self.view.addSubview(revealingSplashView)
         revealingSplashView.startAnimation(){}
-        self.loadingIndicator.startAnimating()
-        self.homeCollectionView.isHidden = true
+        loadingIndicator.startAnimating()
+        homeCollectionView.isHidden = true
         network.checkReachability(completion: {[unowned self] (connected) in
             if connected{
                 self.getDataFromNetwork(url: ApiURL.mostPopular.rawValue, entity: .mostPopular, appendValues: false)
                 
             }else{
                 self.movieStore.getMoviesFromCoreData(entityName: .mostPopular)
+                DispatchQueue.main.async {
+                    self.homeCollectionView.reloadData()
+                    self.homeCollectionView.isHidden = false
+                    self.showAlert(withMessage: "No Internet Connection")
+                }
             }
             
         })
@@ -72,12 +77,12 @@ class HomePageVC: UIViewController {
                     self.currentEntity = .mostPopular
                     self.page = 1
                     if connection{
-
+                        
                         self.getDataFromNetwork(url: ApiURL.mostPopular.rawValue, entity: .mostPopular, appendValues: false)
-                            DispatchQueue.main.async {
-                                self.rightBarDropDown.hide()
-                                self.homeCollectionView.reloadData()
-                            }
+                        DispatchQueue.main.async {
+                            self.rightBarDropDown.hide()
+                            self.homeCollectionView.reloadData()
+                        }
                         
                     }else{
                         self.movieStore.getMoviesFromCoreData(entityName: .mostPopular)
@@ -141,8 +146,10 @@ class HomePageVC: UIViewController {
                 self.movieStore.saveMoviesToCoreData(entityName: .mostPopular)
                 
             }else{
-                self.showAlert(withMessage: "Poor Internet Connection")
                 self.movieStore.getMoviesFromCoreData(entityName: .mostPopular)
+                DispatchQueue.main.async {
+                    self.showAlert(withMessage: "Poor Internet Connection")
+                }
             }
             
             DispatchQueue.main.async {
@@ -176,40 +183,47 @@ extension HomePageVC :UICollectionViewDataSource{
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movieStore.getMoviesCount()
+        return movieStore.getMoviesCount()+1
     }
     
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewsCustomCells
-        
-        if movieStore.getMovie(atIndex: indexPath.row).hasImage{
-            cell.movieImage.sd_setImage(with: URL(string: movieStore.getMovie(atIndex: indexPath.row).image ) , completed: nil)
-        }
-        else{
-            cell.movieImage.image = UIImage.init(named: "placeholder.jpg")
-        }
-        if movieStore.getMovie(atIndex: indexPath.row).isFoavourite{
-            cell.addToFavouritesButton.setImage( UIImage.init(named: "fav"), for: .normal)
-        }else{
-            cell.addToFavouritesButton.setImage( UIImage.init(named: "notfav"), for: .normal)
+        if indexPath.row < movieStore.getMoviesCount(){
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewsCustomCells
             
-        }
-        cell.btnTapAction = { () in
-            if self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite{
-                self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite = false
-                self.coreData.DeleteMovieFromCoreData(withID: self.movieStore.getMovie(atIndex: indexPath.row).id, entityName: "FavouriteMovies")
-                cell.addToFavouritesButton.setImage( UIImage.init(named: "notfav"), for: .normal)
-            }else{
-                self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite = true
-                self.coreData.insertMovieToCoreData(entityName: "FavouriteMovies", movieToInsert: self.movieStore.getMovie(atIndex: indexPath.row) )
-                cell.addToFavouritesButton.setImage( UIImage.init(named: "fav"), for: .normal)
+            if movieStore.getMovie(atIndex: indexPath.row).hasImage{
+                cell.movieImage.sd_setImage(with: URL(string: movieStore.getMovie(atIndex: indexPath.row).image ) , completed: nil)
             }
-            
+            else{
+                cell.movieImage.image = UIImage.init(named: "placeholder.jpg")
+            }
+            if movieStore.getMovie(atIndex: indexPath.row).isFoavourite{
+                cell.addToFavouritesButton.setImage( UIImage.init(named: "fav"), for: .normal)
+            }else{
+                cell.addToFavouritesButton.setImage( UIImage.init(named: "notfav"), for: .normal)
+                
+            }
+            cell.btnTapAction = { () in
+                if self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite{
+                    self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite = false
+                    self.coreData.DeleteMovieFromCoreData(withID: self.movieStore.getMovie(atIndex: indexPath.row).id, entityName: "FavouriteMovies")
+                    cell.addToFavouritesButton.setImage( UIImage.init(named: "notfav"), for: .normal)
+                }else{
+                    self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite = true
+                    self.coreData.insertMovieToCoreData(entityName: "FavouriteMovies", movieToInsert: self.movieStore.getMovie(atIndex: indexPath.row) )
+                    cell.addToFavouritesButton.setImage( UIImage.init(named: "fav"), for: .normal)
+                }
+                
+            }
+            return cell
+        }else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadingCell", for: indexPath) as! LoadingCell
+//            let loadingIndicator = UIActivityIndicatorView(style: .gray)
+//            cell.addSubview(loadingIndicator)
+//            loadingIndicator.center = cell.center
+            return cell
         }
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -219,8 +233,6 @@ extension HomePageVC :UICollectionViewDataSource{
                     self.page = self.page + 1
                     let newUrl = PagingURL.mostPopular.rawValue + "\(self.page)"
                     self.getDataFromNetwork(url: newUrl, entity: .mostPopular, appendValues: true)
-                }else{
-                    self.showAlert(withMessage: "No Internet Connection")
                 }
             })
             
@@ -233,7 +245,11 @@ extension HomePageVC :UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = UIScreen.main.bounds.size.height
         let width = UIScreen.main.bounds.size.width
-        return CGSize(width: width/2 , height: height/2 )
+        if indexPath.row < movieStore.getMoviesCount(){
+            return CGSize(width: width/2 , height: height/2 )
+        }else{
+            return CGSize(width: width , height: height/10 )
+        }
     }
 }
 extension HomePageVC :UISearchBarDelegate{
@@ -267,12 +283,12 @@ extension HomePageVC :UISearchBarDelegate{
                             self.movieStore.fillMovies(response: response, entityName: "", appendValues: false)
                             DispatchQueue.main.async {
                                 self.homeCollectionView.reloadData()
-                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                                 self.loadingIndicator.stopAnimating()
                                 self.homeCollectionView.isHidden = false
                             }
                         }
-
+                        
                     }
                 }else{
                     self.movieStore.getMoviesFromCoreData(entityName: .mostPopular)
