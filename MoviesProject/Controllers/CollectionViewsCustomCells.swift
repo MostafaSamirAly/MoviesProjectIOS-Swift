@@ -28,7 +28,6 @@ class CollectionViewsCustomCells: UICollectionViewCell {
         let button = UIButton(type: UIButton.ButtonType.contactAdd)
         button.translatesAutoresizingMaskIntoConstraints = true
         button.isOpaque = true
-        button.tintColor = .yellow
         let fav = UIImage.init(named: "fav")
         let tintedFav = fav?.withRenderingMode(.alwaysOriginal)
         button.setImage(fav, for: .normal)

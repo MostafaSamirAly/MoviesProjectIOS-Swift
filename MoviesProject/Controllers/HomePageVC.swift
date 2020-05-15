@@ -200,8 +200,10 @@ extension HomePageVC :UICollectionViewDataSource{
             }
             if movieStore.getMovie(atIndex: indexPath.row).isFoavourite{
                 cell.addToFavouritesButton.setImage( UIImage.init(named: "fav"), for: .normal)
+                cell.addToFavouritesButton.tintColor = .red
             }else{
                 cell.addToFavouritesButton.setImage( UIImage.init(named: "notfav"), for: .normal)
+                cell.addToFavouritesButton.tintColor = .gray
                 
             }
             cell.btnTapAction = { () in
@@ -209,19 +211,18 @@ extension HomePageVC :UICollectionViewDataSource{
                     self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite = false
                     self.coreData.DeleteMovieFromCoreData(withID: self.movieStore.getMovie(atIndex: indexPath.row).id, entityName: "FavouriteMovies")
                     cell.addToFavouritesButton.setImage( UIImage.init(named: "notfav"), for: .normal)
+                    cell.addToFavouritesButton.tintColor = .gray
                 }else{
                     self.movieStore.getMovie(atIndex: indexPath.row).isFoavourite = true
                     self.coreData.insertMovieToCoreData(entityName: "FavouriteMovies", movieToInsert: self.movieStore.getMovie(atIndex: indexPath.row) )
                     cell.addToFavouritesButton.setImage( UIImage.init(named: "fav"), for: .normal)
+                    cell.addToFavouritesButton.tintColor = .red
                 }
                 
             }
             return cell
         }else{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loadingCell", for: indexPath) as! LoadingCell
-//            let loadingIndicator = UIActivityIndicatorView(style: .gray)
-//            cell.addSubview(loadingIndicator)
-//            loadingIndicator.center = cell.center
             return cell
         }
     }
