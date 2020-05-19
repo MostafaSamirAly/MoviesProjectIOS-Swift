@@ -40,10 +40,7 @@ class FavouritesVC: UICollectionViewController,UICollectionViewDelegateFlowLayou
          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fcell", for: indexPath) as! CollectionViewsCustomCells
         
         if favouriteMovies[indexPath.row].hasImage{
-            cell.movieImage.sd_setImage(with: URL(string: favouriteMovies[indexPath.row].image ) , completed: {
-                (_,_,_,_) in
-                cell.loadingIndicator.isHidden = true
-            })
+            cell.movieImage.sd_setImage(with: URL(string: favouriteMovies[indexPath.row].image ))
         }
             
         else{

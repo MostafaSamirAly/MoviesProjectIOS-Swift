@@ -38,13 +38,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="139" height="218"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TPo-hV-xXE">
+                                                    <rect key="frame" x="0.0" y="0.0" width="139" height="218"/>
+                                                </imageView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MrA-nh-5Kn">
                                                     <rect key="frame" x="59.666666666666657" y="99" width="20" height="20"/>
                                                     <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </activityIndicatorView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TPo-hV-xXE">
-                                                    <rect key="frame" x="0.0" y="0.0" width="139" height="218"/>
-                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -478,7 +478,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="117" height="197"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qh6-BJ-rMQ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qh6-BJ-rMQ">
                                             <rect key="frame" x="0.0" y="0.0" width="117" height="197"/>
                                         </imageView>
                                     </subviews>
