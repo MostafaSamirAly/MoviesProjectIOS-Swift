@@ -13,7 +13,7 @@ class FavouritesVC: UICollectionViewController,UICollectionViewDelegateFlowLayou
     
     let coreData = CoreDataHelper.coreDatahelperSingleTone
     var favouriteMovies = [Movie]()
-    var cell = CollectionViewsCustomCells()
+    //var cell = CollectionViewsCustomCells()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +37,13 @@ class FavouritesVC: UICollectionViewController,UICollectionViewDelegateFlowLayou
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fcell", for: indexPath) as! CollectionViewsCustomCells
-    
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fcell", for: indexPath) as! CollectionViewsCustomCells
+        
         if favouriteMovies[indexPath.row].hasImage{
-            cell.movieImage.sd_setImage(with: URL(string: favouriteMovies[indexPath.row].image ) , completed: nil)
+            cell.movieImage.sd_setImage(with: URL(string: favouriteMovies[indexPath.row].image ) , completed: {
+                (_,_,_,_) in
+                cell.loadingIndicator.isHidden = true
+            })
         }
             
         else{

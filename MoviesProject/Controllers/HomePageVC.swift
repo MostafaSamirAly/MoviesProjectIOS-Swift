@@ -141,7 +141,7 @@ class HomePageVC: UIViewController {
         
         network.getMovies(url: url) {[unowned self] (response) in
             if response.count != 0{
-                self.movieStore.fillMovies(response: response, entityName: entity.rawValue, appendValues: appendValues)
+                self.movieStore.fillMovies(response: response, appendValues: appendValues)
                 self.SearchCanceledMovies = self.movieStore.getMovies()
                 self.movieStore.saveMoviesToCoreData(entityName: .mostPopular)
                 
@@ -193,7 +193,9 @@ extension HomePageVC :UICollectionViewDataSource{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewsCustomCells
             
             if movieStore.getMovie(atIndex: indexPath.row).hasImage{
-                cell.movieImage.sd_setImage(with: URL(string: movieStore.getMovie(atIndex: indexPath.row).image ) , completed: nil)
+                cell.movieImage.sd_setImage(with: URL(string: movieStore.getMovie(atIndex: indexPath.row).image ) , completed: {(_,_,_,_) in
+                    cell.loadingIndicator.isHidden = true
+                })
             }
             else{
                 cell.movieImage.image = UIImage.init(named: "placeholder.jpg")
@@ -232,8 +234,8 @@ extension HomePageVC :UICollectionViewDataSource{
             network.checkReachability(completion: {[unowned self] connected in
                 if connected{
                     self.page = self.page + 1
-                    let newUrl = PagingURL.mostPopular.rawValue + "\(self.page)"
-                    self.getDataFromNetwork(url: newUrl, entity: .mostPopular, appendValues: true)
+                    let newUrl = self.currentApi.rawValue + "\(self.page)"
+                    self.getDataFromNetwork(url: newUrl, entity: self.currentEntity, appendValues: true)
                 }
             })
             
@@ -281,7 +283,7 @@ extension HomePageVC :UISearchBarDelegate{
                         if response.count == 0 {
                             self.showAlert(withMessage: "Movie Not Found")
                         }else{
-                            self.movieStore.fillMovies(response: response, entityName: "", appendValues: false)
+                            self.movieStore.fillMovies(response: response, appendValues: false)
                             DispatchQueue.main.async {
                                 self.homeCollectionView.reloadData()
                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

@@ -11,6 +11,7 @@ import UIKit
 class CollectionViewsCustomCells: UICollectionViewCell {
 
     @IBOutlet weak var movieImage: UIImageView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     var btnTapAction : (()->())?
     

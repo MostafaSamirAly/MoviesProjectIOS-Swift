@@ -38,6 +38,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="139" height="218"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MrA-nh-5Kn">
+                                                    <rect key="frame" x="59.666666666666657" y="99" width="20" height="20"/>
+                                                    <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </activityIndicatorView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TPo-hV-xXE">
                                                     <rect key="frame" x="0.0" y="0.0" width="139" height="218"/>
                                                 </imageView>
@@ -45,11 +49,14 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="TPo-hV-xXE" firstAttribute="top" secondItem="f8b-Li-Oo6" secondAttribute="top" id="1sk-Tj-BT6"/>
+                                            <constraint firstItem="MrA-nh-5Kn" firstAttribute="centerX" secondItem="f8b-Li-Oo6" secondAttribute="centerX" id="3Gd-wP-qW8"/>
                                             <constraint firstItem="TPo-hV-xXE" firstAttribute="leading" secondItem="f8b-Li-Oo6" secondAttribute="leading" id="8tP-Yd-Qx7"/>
+                                            <constraint firstItem="MrA-nh-5Kn" firstAttribute="centerY" secondItem="f8b-Li-Oo6" secondAttribute="centerY" id="9PE-CC-Cui"/>
                                             <constraint firstAttribute="trailing" secondItem="TPo-hV-xXE" secondAttribute="trailing" id="BIU-bY-nWL"/>
                                             <constraint firstAttribute="bottom" secondItem="TPo-hV-xXE" secondAttribute="bottom" id="WrV-AI-Oc4"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="loadingIndicator" destination="MrA-nh-5Kn" id="fpk-15-zvy"/>
                                             <outlet property="movieImage" destination="TPo-hV-xXE" id="ciU-yz-mpM"/>
                                         </connections>
                                     </collectionViewCell>

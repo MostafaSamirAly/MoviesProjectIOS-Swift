@@ -17,15 +17,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="dxF-oW-EZm">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dxF-oW-EZm" secondAttribute="bottom" id="0SL-PD-WFc"/>
+                            <constraint firstAttribute="bottom" secondItem="dxF-oW-EZm" secondAttribute="bottom" id="0SL-PD-WFc"/>
                             <constraint firstItem="dxF-oW-EZm" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="6QB-Gb-kg6"/>
-                            <constraint firstItem="dxF-oW-EZm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h76-QG-ghV"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dxF-oW-EZm" secondAttribute="trailing" id="rMK-aT-SOA"/>
+                            <constraint firstItem="dxF-oW-EZm" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="h76-QG-ghV"/>
+                            <constraint firstAttribute="trailing" secondItem="dxF-oW-EZm" secondAttribute="trailing" id="rMK-aT-SOA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -17,7 +17,7 @@ class MovieStore {
         favourites = coreData.getMoviesFromCoreData(entityName: CoreDataEntities.favourites.rawValue)
     }
     
-    func fillMovies(response : [Dictionary<String,Any>] , entityName : String, appendValues:Bool) -> Void {
+    func fillMovies(response : [Dictionary<String,Any>], appendValues:Bool) -> Void {
         if response.count != 0{
             if !appendValues{
                 movies.removeAll()
